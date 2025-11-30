@@ -17,13 +17,9 @@
 ### 1. Клонирование репозитория
 
 ```bash
-git clone <URL_ЭТОГО_РЕПОЗИТОРИЯ> miner-api
+git clone https://github.com/mrBrodyaga/sibmine.git miner-api
 cd miner-api
 ```
-
-(подставь свой URL репозитория)
-
----
 
 ## Вариант 1: установка через `uv`
 
@@ -221,20 +217,6 @@ curl http://localhost:5000/miners
 }
 ```
 
-#### Фильтрация по статусу
-
-Можно отфильтровать список по статусу:
-
-**GET** `/miners?status=<status>`
-
-Пример:
-
-```bash
-curl "http://localhost:5000/miners?status=active"
-```
-
-Если передан недопустимый статус, вернётся ошибка `400`.
-
 ---
 
 ### 3. Обновление майнера
@@ -354,7 +336,7 @@ curl -X POST http://localhost:5000/miners/load-sample-data
 
 ```json
 {
-  "message": "10 sample miners loaded successfully",
+  "message": "10 тестовые майнеры успешно загружены",
   "miners_added": 10,
   "stats": {
     "active": 5,

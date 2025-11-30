@@ -5,7 +5,7 @@ from flask import Flask, g, request, jsonify
 app = Flask(__name__)
 DATABASE = 'database.db'
 
-# Функция для получения соединения с БД
+# Соединения с БД
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -106,15 +106,7 @@ def get_all_miners():
     try:
         db = get_db()
         
-        # Поддержка фильтрации по статусу
-        status_filter = request.args.get('status')
-        if status_filter:
-            if status_filter not in VALID_STATUSES:
-                return jsonify({'error': f'Invalid status filter'}), 400
-            cursor = db.execute('SELECT * FROM miners WHERE status = ? ORDER BY id', (status_filter,))
-        else:
-            cursor = db.execute('SELECT * FROM miners ORDER BY id')
-        
+        cursor = db.execute('SELECT * FROM miners ORDER BY id')
         miners = cursor.fetchall()
         
         return jsonify({
@@ -124,8 +116,9 @@ def get_all_miners():
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
 
+
+# UPDATE - Обновление майнера
 @app.route('/miners/<int:miner_id>', methods=['PUT'])
 def update_miner(miner_id):
     data = request.get_json()
@@ -338,7 +331,7 @@ def load_sample_data():
         db.commit()
         
         return jsonify({
-            'message': f'{len(sample_miners)} sample miners loaded successfully',
+            'message': f'{len(sample_miners)} тестовые майнеры успешно загружены',
             'miners_added': len(sample_miners),
             'stats': {
                 'active': len([m for m in sample_miners if m['status'] == 'active']),
